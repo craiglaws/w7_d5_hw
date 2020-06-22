@@ -2,7 +2,7 @@
   <div>
     <select v-model="selectedCategory">
       <!-- <option disabled value="">Please select a category</option> -->
-      <option v-for="(category, index) in categories" :key="index" :value="category">{{category.name}}</option>
+      <option v-for="(category, index) in categories" :key="index" :value="category.id">{{category.name}}</option>
     </select>
     <button v-on:click="handleStartQuiz">Start Quiz</button>
   </div>
@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     handleStartQuiz(){
-      eventBus.$emit('start-quiz', this.selectedCategory.id)
+      eventBus.$emit('start-quiz', this.selectedCategory)
     }
   }
 }

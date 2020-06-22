@@ -1,11 +1,16 @@
 <template lang="html">
   <div>
-    <p>{{question.question}}</p>
+    <p v-html="question.question"></p>
     <!-- <label v-for="(answer, index) in sortAnswers" :id="index" :key="index">{{answer.answer}}</label> -->
-    <div>
-      <label  v-for="(answer, index) in sortAnswers" :key="index" :for="index">{{answer.answer}} <input type="radio" :value="answer" v-model="picked" :name="question.question" :id="index" >  </label>
-      <!-- <input type="radio" :id="index" :value="answer" > -->
+
+    <div v-for="(answer, index) in sortAnswers" :key="index" :class="changeClass" >
+        <!-- picked(not null) (answer.value ? greenClass : redClass )  : normalClass -->
+
+      <label  :for="answer.answer">{{answer.answer}} </label>
+      <input type="radio" :value="answer" v-model="picked" :name="question.question" :id="answer.answer">
+
     </div>
+      <!-- <input type="radio" :id="index" :value="answer" > -->
   </div>
 </template>
 
@@ -24,7 +29,7 @@ export default {
       array.sort(() => Math.random() - 0.5)
     },
     checkAnswer(answer){
-      console.log(answer);
+      console.log(answer.target.value);
     },
     selectRightAnswer(rightAnswer){
       this.correctAnswer = rightAnswer
@@ -46,6 +51,18 @@ export default {
       answerArray.push(rightAnswer);
       this.shuffleAnswers(answerArray)
       return answerArray;
+    },
+
+    changeClass(){
+      let className = 'default';
+      if (this.picked == null){
+        return className
+      }
+
+      if (this.picked.value){className = 'correct';}
+      else if (this.picked.value == false){className = 'wrong'}
+
+      return className;
     }
 
   }
@@ -53,4 +70,16 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.correct{
+  background-color: green;
+}
+
+.wrong{
+  background-color: red;
+}
+
+.default{
+
+}
+
 </style>
